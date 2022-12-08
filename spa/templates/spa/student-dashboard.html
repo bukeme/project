@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{% if request.user == user %}
+		Your 
+	{% else %}
+		{{user.first_name | title}}'s
+	{% endif %} 
+	Dashboard
+{% endblock title %}
+
+{% block content %}
+	
+	<h2 class="text-center mt-4 mb-3">Dashboard</h2>
+	<div class="row">
+		<div class="col-lg-6 px-5 py-5">
+			<h5 class="mb-2">
+				{% if request.user == user %}
+				Your 
+				{% else %}
+				{{user.first_name | title}}'s
+				{% endif %}
+				Profile:
+			</h5>
+			
+				
+			<div class="fieldWrapper form-group">
+				<label for="id_first_name">First Name:</label>
+				<div class="form-group">
+					<input disabled type="text" name="first_name" id="id_first_name" placeholder="First Name" class="form-control" value="{{user.first_name}}">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+			</div>
+			<div class="fieldWrapper form-group">
+				<label for="id_last_name">Last Name:</label>
+				<div class="form-group">
+					<input disabled type="text" name="last_name" id="id_last_name" placeholder="Last Name" class="form-control" value="{{user.last_name}}">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+			</div>
+			<div class="fieldWrapper form-group">
+				<label for="id_reg_no">Reg. No.:</label>
+				<div class="form-group">
+					<input disabled type="text" name="reg_no" id="id_reg_no" placeholder="Reg No" class="form-control"  value="{{user.student.reg_no}}">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+			</div>
+
+			<div class="fieldWrapper form-group">
+				<label for="id_department">Department:</label>
+				<div class="form-group">
+					<input disabled type="text" name="department" id="id_department" class="form-control"  value="{{user.student.department}}">
+					<i class="fa-regular fa-address-card input-icon"></i>
+				</div>
+			</div>
+			<div class="fieldWrapper form-group">
+				<label for="id_level">Level:</label>
+				<div class="form-group">
+					<input disabled type="text" name="level" id="id_level" class="form-control"  value="{{user.student.level}}">
+					<i class="fa-regular fa-address-card input-icon"></i>
+				</div>
+			</div>
+			<div class="fieldWrapper form-group">
+				<label for="id_Email">Email:</label>
+				<div class="form-group">
+					<input disabled type="email" name="email" id="id_email" placeholder="Email" class="form-control" value="{{user.email}}">
+					<i class="fa-solid fa-envelope input-icon"></i>
+				</div>
+			</div>
+			{% if request.user == user or request.user.is_staff %}
+				<div>
+					<a href="{% url 'student_update' user.pk %}" class="btn btn-primary">Update Profile</a>
+				</div>
+			{% endif %}
+			
+		</div>
+		<div class="col-lg-6 px-5 py-lg-5">
+			{% if user.student.project == None %}
+
+				<div class="d-flex flex-column align-items-center">
+					{% if request.user == user %}
+						<h6>You Have Not Registered Your Project</h6>
+						<a href="{% url 'register_project' %}" class="btn btn-success">Register Now</a>
+					{% else %}
+						<h6>{{user.first_name}} Have Not Registered A Project Yet</h6>
+					{% endif %} 
+					
+				</div>
+
+			{% else %}
+
+				<h5 class="mb-2">
+					{% if request.user == user %}
+						Your 
+					{% else %}
+						{{user.first_name | title}}'s
+					{% endif %}
+					Project:
+				</h5>
+				
+				<div class="fieldWrapper form-group">
+					<label for="{{p_form.title.id_for_title}}">Title</label>
+					<div class="form-group">
+						<input type="text" disabled name="title" id="id_title" class="form-control" value="{{user.student.project.title}}">
+						<i class="fa-solid fa-pen input-icon"></i>
+					</div>
+				</div>
+				<div class="fieldWrapper form-group">
+					<label for="{{p_form.case_study.id_for_case_study}}">Case Study</label>
+					<div class="form-group">
+						<input type="text" disabled name="case_study" id="id_case_study" class="form-control" value="{{user.student.project.case_study}}">
+						<i class="fa-solid fa-pen input-icon"></i>
+					</div>
+				</div>
+				
+				<a href="{% url 'project_detail' user.student.project.pk %}" class="btn btn-primary">View Project</a>
+
+			{% endif %}
+		</div>
+		
+	</div>
+
+{% endblock content %}
+

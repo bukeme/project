@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout Confirmation{% endblock title %}
+
+{% block content %}
+
+	<div class="d-flex flex-column align-items-center mt-5">
+		<h3>Are You Sure You Want To Logout?</h3>
+		<form method="post">
+			{% csrf_token %}
+			<a href="javascript:history.back()" class="btn btn-outline-primary">Go Back</a>
+			<button type="submit" class="btn btn-danger ml-2">Yes, Logout</button>
+		</form>
+	</div>
+
+{% endblock content %}

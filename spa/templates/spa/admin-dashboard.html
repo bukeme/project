@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Dashboard{% endblock title %}
+
+{% block content %}
+	<h2 class="text-center mt-4 mb-3">Admin Dashboard</h2>
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="p-4">
+				<h5 class="mb-2">Your Profile:</h5>
+				<form method="post">
+					{% csrf_token %}
+					<div>
+						{% if u_form.non_field_errors %}
+							<ol>
+								{% for error in u_form.non_field_errors %}
+									<li><strong>{{error|escape}}</strong></li>
+								{% endfor %}
+							</ol>
+						{% endif %}
+					</div>
+					<div class="fieldWrapper form-group">
+						<div class="form-group">
+							<input type="text" name="first_name" id="id_first_name" placeholder="First Name" class="form-control" value="{{request.user.first_name}}">
+							<i class="fa-solid fa-circle-user input-icon"></i>
+						</div>
+						{% if u_form.first_name.errors %}
+							<ul class="list-unstyled" style="margin-top: -0.9rem;">
+								{% for error in u_form.first_name.errors %}
+									<li class="text-danger font-italic small">{{error | escape}}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+					<div class="fieldWrapper form-group">
+						<div class="form-group">
+							<input type="text" name="last_name" id="id_last_name" placeholder="Last Name" class="form-control" value="{{request.user.last_name}}">
+							<i class="fa-solid fa-circle-user input-icon"></i>
+						</div>
+						{% if u_form.last_name.errors %}
+							<ul class="list-unstyled" style="margin-top: -0.9rem;">
+								{% for error in u_form.last_name.errors %}
+									<li class="text-danger font-italic small">{{error | escape}}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+					<div class="fieldWrapper form-group">
+						<div class="form-group">
+							<input type="email" name="email" id="id_email" placeholder="Email" class="form-control" value="{{request.user.email}}">
+							<i class="fa-solid fa-envelope input-icon"></i>
+						</div>
+						{% if u_form.email.errors %}
+							<ul class="list-unstyled" style="margin-top: -0.9rem;">
+								{% for error in u_form.email.errors %}
+									<li class="text-danger font-italic small">{{error | escape}}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+		<div class="col-lg-6"></div>
+	</div>
+
+{% endblock content %}

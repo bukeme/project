@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Dashboard{% endblock title %}
+
+{% block content %}
+	
+	<div class="d-flex flex-column align-items-center">
+		<div class="mt-4 mb-3">
+			{% if messages %}
+
+				{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span>{{message}}</span>
+					</div>
+				{% endfor %}
+
+			{% endif %}
+			<h2 class="text-center">Register Project</h2>
+		</div>
+		
+		<div class="bg-white p-4 shadow" style="min-width: 500px;">
+			<h5 class="mb-2">Project:</h5>
+			<form method="post">
+				{% csrf_token %}
+				<div>
+					{% if form.non_field_errors %}
+						<ol>
+							{% for error in form.non_field_errors %}
+								<li><strong>{{error|escape}}</strong></li>
+							{% endfor %}
+						</ol>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<label for="{{form.title.id_for_title}}">Title</label>
+					<div class="form-group">
+						<input type="text" name="title" id="id_title" value="{{form_data.title}}" class="form-control">
+						<i class="fa-solid fa-pen input-icon"></i>
+					</div>
+					{% if form.title.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in form.title.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<label for="{{form.case_study.id_for_case_study}}">Case Study</label>
+					<div class="form-group">
+						<input type="text" name="case_study" id="id_case_study" value="{{form_data.case_study}}" class="form-control">
+						<i class="fa-solid fa-pen input-icon"></i>
+					</div>
+					{% if form.case_study.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in form.case_study.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="form-check mb-2">
+					<input type="checkbox" class="form-check-input" id="id_checkbox" {% if form_data %}checked{% endif %}>
+					<label for="id_checkbox" class="form-check-label">Group Project</label>
+				</div>
+				
+				<div class="form-group select {% if not form_data %}d-none{% endif %}">
+					<label for="id_users">Add Group Members</label>
+					<select multiple class="form-control" id="id_users" name="students" style="padding-left: 0.75rem;">
+						{% for student in students %}
+							<option value="{{student.pk}}" {% if student.pk in form_data.students_id %}selected{% endif %}>{{student.user.email}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<button class="btn background-1 text-white w-100 mt-3">Register</button>
+			</form>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block domready %}
+
+	const checkbox = document.querySelector('#id_checkbox')
+	const select = document.querySelector('.select')
+
+	checkbox.addEventListener('change', function(e) {
+		select.classList.toggle('d-none')
+	})
+
+{% endblock domready %}

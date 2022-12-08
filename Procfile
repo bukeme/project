@@ -1,0 +1,1 @@
+web: gunicorn student_allocation.wsgi --log-file -

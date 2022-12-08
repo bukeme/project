@@ -1,0 +1,35 @@
+.background-1 {
+	background: #171c24 !important;
+}
+
+.background-2 {
+	background: #E7E9EB !important;
+}
+
+.color-1 {
+	color: #171c24 !important;
+}
+
+img {
+	object-fit: cover;
+}
+
+.f-lg {
+	font-size: 1.2rem;
+}
+
+.form-group {
+	position: relative;
+}
+
+.form-group .form-control {
+	padding-left: 2.4rem;
+}
+
+.input-icon {
+	position: absolute;
+	left: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1.4rem;
+}
