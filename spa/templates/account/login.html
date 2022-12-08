@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign In{% endblock title %}
+
+{% block style %}
+
+	<style type="text/css">
+		@media screen and (max-width: 576px) {
+			form {
+				min-width: 300px !important;
+			}
+		}
+	</style>
+
+{% endblock style %}
+
+{% block content %}
+
+
+	<div class="d-flex align-items-center justify-content-center flex-column p-5" style="min-height: 90vh;">
+		<div>
+			{% if messages %}
+
+				{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span>{{message}}</span>
+					</div>
+				{% endfor %}
+
+			{% endif %}
+		</div>
+		<div class="color-1 d-flex align-items-center f-lg mb-3">
+			<i class="fa-solid fa-graduation-cap" style="margin-top: -0.45rem;"></i>
+			<h4 class="ml-2">Student's Portal</h4>
+		</div>
+		<div class="bg-white p-4 shadow">
+			<div class="d-flex flex-column align-items-center">
+				<i class="fa-solid fa-circle-user" style="font-size: 2.5rem;"></i>
+				<h4 class="mt-2">Sign In</h4>
+				<p class="small" style="margin-top: -0.3rem;">Sign in to your project</p>
+			</div>
+			<form style="min-width: 400px;" method="post">
+				{% csrf_token %}
+				<div>
+					{% if form.non_field_errors %}
+						<ol>
+							{% for error in form.non_field_errors %}
+								<li><strong>{{error|escape}}</strong></li>
+							{% endfor %}
+						</ol>
+					{% endif %}
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input required type="email" name="email" id="id_email" placeholder="Email" class="form-control">
+						<i class="fa-solid fa-envelope input-icon"></i>
+					</div>
+					{% if form.email.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in form.email.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input required type="password" name="password" id="id_password" placeholder="Password" class="form-control">
+						<i class="fa-solid fa-key input-icon"></i>
+					</div>
+					{% if form.password.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in form.password.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<button class="btn background-1 text-white w-100 mt-3">Sign In</button>
+				<p class="text-center small mt-2">Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a></p>
+			</form>
+			<!-- <form style="min-width: 400px;" method="post">
+				{% csrf_token %}
+				{{form | crispy}}
+				<button type="submit">Submit</button>
+			</form> -->
+		</div>
+	</div>
+
+{% endblock content %}

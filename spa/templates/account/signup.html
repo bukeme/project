@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block style %}
+
+	<style type="text/css">
+		@media screen and (max-width: 576px) {
+			form {
+				min-width: 300px !important;
+			}
+		}
+	</style>
+
+{% endblock style %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center flex-column p-5" style="min-height: 90vh;">
+	<div class="color-1 d-flex align-items-center f-lg mb-3">
+		<i class="fa-solid fa-graduation-cap" style="margin-top: -0.45rem;"></i>
+		<h4 class="ml-2">Student's Portal</h4>
+	</div>
+	<div class="bg-white p-4 shadow">
+		<div class="d-flex flex-column align-items-center">
+			<i class="fa-solid fa-circle-user" style="font-size: 2.5rem;"></i>
+			<h4 class="mt-2">Sign Up</h4>
+			<p class="small" style="margin-top: -0.3rem;">Sign up and begin your project</p>
+		</div>
+		<form style="min-width: 400px;" method="post">
+			{% csrf_token %}
+			<div>
+				{% if u_form.non_field_errors %}
+					<ol>
+						{% for error in u_form.non_field_errors %}
+							<li><strong>{{error|escape}}</strong></li>
+						{% endfor %}
+					</ol>
+				{% endif %}
+				{% if s_form.non_field_errors %}
+					<ol>
+						{% for error in s_form.non_field_errors %}
+							<li><strong>{{error|escape}}</strong></li>
+						{% endfor %}
+					</ol>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="text" name="first_name" id="id_first_name" placeholder="First Name" class="form-control">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+				{% if u_form.first_name.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in u_form.first_name.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="text" name="last_name" id="id_last_name" placeholder="Last Name" class="form-control">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+				{% if u_form.last_name.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in u_form.last_name.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="text" name="reg_no" id="id_reg_no" placeholder="Reg No" class="form-control" pattern="^[0-9]{2}/[A-Za-z]{2}/[A-Za-z]{2}/[0-9]{2,}$">
+					<i class="fa-solid fa-circle-user input-icon"></i>
+				</div>
+				{% if s_form.reg_no.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in s_form.reg_no.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<select name="department" id="id_department" required class="form-control">
+						<option value="">Department</option>
+						<option value="Agricultural Engineering">Agricultural Engineering</option>
+						<option value="Electrical Engineering">Electrical Engineering</option>
+						<option value="Computer Engineering">Computer Engineering</option>
+						<option value="Petroleum Engineering">Petroleum Engineering</option>
+						<option value="Chemical Engineering">Chemical Engineering</option>
+						<option value="Mechanical Engineering">Mechanical Engineering</option>
+						<option value="Food Engineering">Food Engineering</option>
+						<option value="Civil Engineering">Civil Engineering</option>
+					</select>
+					<i class="fa-regular fa-address-card input-icon"></i>
+				</div>
+				{% if s_form.department.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in s_form.department.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<select name="level" id="id_level" required class="form-control">
+						<option value="">Level</option>
+						<option value="500 Level">500 Level</option>
+						<option value="Spill Over">Spill Over</option>
+					</select>
+					<i class="fa-regular fa-address-card input-icon"></i>
+				</div>
+				{% if s_form.level.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in s_form.level.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="email" name="email" id="id_email" placeholder="Email" class="form-control">
+					<i class="fa-solid fa-envelope input-icon"></i>
+				</div>
+				{% if form.u_email.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in u_form.email.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="password" name="password1" id="id_password1" placeholder="Password" class="form-control">
+					<i class="fa-solid fa-key input-icon"></i>
+				</div>
+				{% if u_form.password1.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in u_form.password1.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div class="fieldWrapper form-group">
+				<div class="form-group">
+					<input required type="password" name="password2" id="id_password2" placeholder="Confirm Password" class="form-control">
+					<i class="fa-solid fa-key input-icon"></i>
+				</div>
+				{% if u_form.password2.errors %}
+					<ul class="list-unstyled" style="margin-top: -0.9rem;">
+						{% for error in u_form.password2.errors %}
+							<li class="text-danger font-italic small">{{error | escape}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<button class="btn background-1 text-white w-100 mt-3">Sign Up</button>
+			<p class="text-center small mt-2">Already have an account? <a href="{% url 'account_login' %}">Sign In</a></p>
+		</form>
+	</div>
+</div>
+{% endblock content %}

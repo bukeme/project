@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Profile{% endblock title %}
+
+{% block content %}
+	
+	<div class="d-flex flex-column align-items-center">
+		<div class="mt-4 mb-3">
+			{% if messages %}
+
+				{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span>{{message}}</span>
+					</div>
+				{% endfor %}
+
+			{% endif %}
+			<h2 class="text-center">Update Profile</h2>
+		</div>
+		
+		<div class="bg-white p-4 shadow" style="min-width: 500px;">
+			<h5 class="mb-2">Profile:</h5>
+			<form method="post">
+				{% csrf_token %}
+				<div>
+					{% if u_form.non_field_errors %}
+						<ol>
+							{% for error in u_form.non_field_errors %}
+								<li><strong>{{error|escape}}</strong></li>
+							{% endfor %}
+						</ol>
+					{% endif %}
+					{% if s_form.non_field_errors %}
+						<ol>
+							{% for error in s_form.non_field_errors %}
+								<li><strong>{{error|escape}}</strong></li>
+							{% endfor %}
+						</ol>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input type="text" name="first_name" id="id_first_name" placeholder="First Name" class="form-control" value="{{user.first_name}}">
+						<i class="fa-solid fa-circle-user input-icon"></i>
+					</div>
+					{% if u_form.first_name.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in u_form.first_name.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input type="text" name="last_name" id="id_last_name" placeholder="Last Name" class="form-control" value="{{user.last_name}}">
+						<i class="fa-solid fa-circle-user input-icon"></i>
+					</div>
+					{% if u_form.last_name.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in u_form.last_name.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input type="text" name="reg_no" id="id_reg_no" placeholder="Reg No" class="form-control"  value="{{user.student.reg_no}}">
+						<i class="fa-solid fa-circle-user input-icon"></i>
+					</div>
+					{% if s_form.reg_no.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in s_form.reg_no.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						
+						<select name="department" id="id_department" required class="form-control">
+							<option value="">Department</option>
+							<option value="Agricultural Engineering">Agricultural Engineering</option>
+							<option value="Electrical Engineering">Electrical Engineering</option>
+							<option value="Computer Engineering">Computer Engineering</option>
+							<option value="Petroleum Engineering">Petroleum Engineering</option>
+							<option value="Chemical Engineering">Chemical Engineering</option>
+							<option value="Mechanical Engineering">Mechanical Engineering</option>
+							<option value="Food Engineering">Food Engineering</option>
+							<option value="Civil Engineering">Civil Engineering</option>
+						</select>
+						<i class="fa-regular fa-address-card input-icon"></i>
+					</div>
+					{% if s_form.department.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in s_form.department.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<select name="level" id="id_level" required class="form-control">
+							<option value="">Level</option>
+							<option value="500 Level">500 Level</option>
+							<option value="Spill Over">Spill Over</option>
+						</select>
+						<i class="fa-regular fa-address-card input-icon"></i>
+					</div>
+					{% if s_form.level.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in s_form.level.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<div class="fieldWrapper form-group">
+					<div class="form-group">
+						<input type="email" name="email" id="id_email" placeholder="Email" class="form-control" value="{{user.email}}">
+						<i class="fa-solid fa-envelope input-icon"></i>
+					</div>
+					{% if u_form.email.errors %}
+						<ul class="list-unstyled" style="margin-top: -0.9rem;">
+							{% for error in u_form.email.errors %}
+								<li class="text-danger font-italic small">{{error | escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				<button class="btn btn-primary" type="submit">Update</button>
+			</form>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block domready %}
+
+	const deptOptions = document.querySelectorAll('#id_department option');
+	const levelOptions = document.querySelectorAll('#id_level option');
+	deptOptions.forEach(function(option) {
+		if (option.textContent == "{{user.student.department}}") {
+			option.selected = true;
+		};
+	});
+	levelOptions.forEach(function(level) {
+		if (level.textContent == "{{user.student.level}}") {
+			level.selected = true;
+		};
+	});
+
+{% endblock domready %}
