@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -24,6 +25,9 @@ class Project(models.Model):
 		if self.student_set.all().count() > 1:
 			return True
 		return False
+	
+	def get_absolute_url(self):
+		return reverse('project_detail', kwargs={'pk': self.pk})
 
 class Student(models.Model):
 	DEPARTMENTS = (
