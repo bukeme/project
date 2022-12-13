@@ -4,7 +4,7 @@
 
 {% block content %}
 	
-	<div class="d-flex flex-column align-items-center">
+	<div>
 		<div class="mt-4 mb-3">
 			{% if messages %}
 
@@ -19,7 +19,7 @@
 			<h2 class="text-center">Register Project</h2>
 		</div>
 		
-		<div class="bg-white p-4 shadow" style="min-width: 500px;">
+		<div class="bg-white p-4 shadow mx-auto" style="max-width: 500px;">
 			<h5 class="mb-2">Project:</h5>
 			<form method="post">
 				{% csrf_token %}
